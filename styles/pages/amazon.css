@@ -2,10 +2,6 @@
 	margin-top: 60px;
 }
 
-body {
-	background: #333;
-}
-
 .products-grid {
 	display: grid;
 
