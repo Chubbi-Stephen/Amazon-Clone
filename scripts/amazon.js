@@ -83,6 +83,7 @@ products.forEach((product) => {
 
 document.querySelector(".js-products-grid").innerHTML = productHTML;
 
+// functionalities onClick of the add to cart button
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 	button.addEventListener("click", () => {
 		const productId = button.dataset.productId;
@@ -99,6 +100,7 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 			}
 		});
 
+		// if their is a matching Item on the cart
 		if (matchingItem) {
 			matchingItem.quantity += Number(quantitySelector);
 		} else {
@@ -118,7 +120,8 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 			+document.querySelector(".js-cart-quantity").innerHTML +
 			Number(quantitySelector);
 
-		setTimeout(addedTimeout, 0);
+		// Timer for the popup message
+		// setTimeout(addedTimeout, 0);
 
 		function addedTimeout() {
 			document
@@ -132,7 +135,26 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 				.classList.remove("opacity");
 		}
 
-		setTimeout(removeTimeout, 2000);
+		// setTimeout(removeTimeout, 2000);
+
+		let timeoutId;
+
+		function refreshTimeout() {
+			clearTimeout(timeoutId);
+
+			// display code
+			setTimeout(addedTimeout, 0);
+
+			// start a new timeout
+			timeoutId = setTimeout(removeTimeout, 2000);
+		}
+
+		refreshTimeout();
+		document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+			button.addEventListener("click", refreshTimeout);
+		});
+
+		// check out the popup imbalance
 
 		console.log(cart);
 	});
