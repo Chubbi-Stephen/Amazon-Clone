@@ -1,4 +1,4 @@
-import { cart } from "../data/cart.js";
+import { cart, addToCart, updateCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 let productHTML = "";
@@ -56,43 +56,17 @@ products.forEach((product) => {
 
 document.querySelector(".js-products-grid").innerHTML = productHTML;
 
+/////////////////////////////////////////////////////////////
 // functionalities onClick of the add to cart button
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 	button.addEventListener("click", () => {
 		const productId = button.dataset.productId;
 
-		const quantitySelector = document.querySelector(
-			`.js-quantity-selector-${productId}`
-		).value;
+		addToCart(productId);
 
-		let matchingItem;
+		updateCartQuantity();
 
-		cart.forEach((item) => {
-			if (productId === item.productId) {
-				matchingItem = item;
-			}
-		});
-
-		// if their is a matching Item on the cart
-		if (matchingItem) {
-			matchingItem.quantity += Number(quantitySelector);
-		} else {
-			cart.push({
-				productId: productId,
-				quantity: Number(quantitySelector),
-			});
-		}
-
-		let cartQuantity = 0;
-
-		cart.forEach((item) => {
-			cartQuantity = Number(quantitySelector);
-		});
-
-		document.querySelector(".js-cart-quantity").innerHTML =
-			+document.querySelector(".js-cart-quantity").innerHTML +
-			Number(quantitySelector);
-
+		//////////////////////////////////////////////////////
 		// Timer for the popup message
 		setTimeout(addedTimeout, 0);
 
@@ -108,6 +82,7 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 				.classList.remove("opacity");
 		}
 
+		//////////////////////////////////////////////////////
 		// setTimeout(removeTimeout, 2000);
 
 		let timeoutId;
