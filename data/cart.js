@@ -71,6 +71,10 @@ export function removeFromCart(productId) {
 			newCart.push(cartItem);
 		}
 		cart = newCart;
+
+		document.querySelector(
+			".js-checkout-link"
+		).innerHTML = `${cart.length} items`;
 	});
 
 	saveToLocalstorage();
