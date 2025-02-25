@@ -84,7 +84,6 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 		}
 
 		//////////////////////////////////////////////////////
-		// setTimeout(removeTimeout, 2000);
 
 		let timeoutId;
 
@@ -95,13 +94,10 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
 			setTimeout(addedTimeout, 0);
 
 			// start a new timeout
-			timeoutId = setTimeout(removeTimeout, 2000);
+			timeoutId = setTimeout(removeTimeout, 1300);
 		}
 
 		refreshTimeout();
-		document.querySelectorAll(".js-add-to-cart").forEach((button) => {
-			button.addEventListener("click", refreshTimeout);
-		});
 
 		console.log(cart);
 	});

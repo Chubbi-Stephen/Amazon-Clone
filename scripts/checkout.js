@@ -101,4 +101,8 @@ document.querySelectorAll(".js-delete-link").forEach((link) => {
 		const container = document.querySelector(".js-cart-item-container");
 		container.remove();
 	});
+
+	document.querySelector(
+		".js-checkout-link"
+	).innerHTML = `${cart.length} items`;
 });
