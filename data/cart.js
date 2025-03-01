@@ -15,6 +15,13 @@ if (!cart) {
 
 function saveToLocalstorage() {
 	localStorage.setItem("cart", JSON.stringify(cart));
+	// Save total quantity to local storage
+	localStorage.setItem("totalQuantity", getTotalQuantity());
+}
+
+// Function to calculate total quantity
+function getTotalQuantity() {
+	return cart.reduce((total, item) => total + item.quantity, 0);
 }
 
 //////////////////////////////////////////////////////////////
@@ -46,36 +53,42 @@ export function addToCart(productId) {
 	}
 
 	saveToLocalstorage();
+	updateCartQuantity();
 }
 
 //////////////////////////////////////////////////////////////
 // Update Cart Quantity on Client Function
 export function updateCartQuantity() {
-	let cartQuantity = 0;
+	const totalQuantity = getTotalQuantity(); // New: Calculate total quantity
+	const cartQuantityElement = document.querySelector(".js-cart-quantity"); // New: Get the cart quantity element
 
-	cart.forEach((icartItem) => {
-		cartQuantity = Number(quantitySelector);
-	});
-
-	document.querySelector(".js-cart-quantity").innerHTML =
-		+document.querySelector(".js-cart-quantity").innerHTML +
-		Number(quantitySelector);
+	if (cartQuantityElement) {
+		// New: Check if the element exists
+		cartQuantityElement.innerHTML = totalQuantity; // New: Update displayed total quantity
+	}
 
 	saveToLocalstorage();
 }
 
 export function removeFromCart(productId) {
-	const newCart = [];
-	cart.forEach((cartItem) => {
-		if (cartItem.productId !== productId) {
-			newCart.push(cartItem);
-		}
-		cart = newCart;
+	// Filter out the item to be removed
+	cart = cart.filter((cartItem) => cartItem.productId !== productId);
 
-		document.querySelector(
-			".js-checkout-link"
-		).innerHTML = `${cart.length} items`;
-	});
+	document.querySelector(
+		".js-checkout-link"
+	).innerHTML = `${cart.length} items`;
 
 	saveToLocalstorage();
+	updateCartQuantity();
 }
+
+// Display total quantity on page load
+document.addEventListener("DOMContentLoaded", () => {
+	const totalQuantity = localStorage.getItem("totalQuantity") || 0;
+	const cartQuantityElement = document.querySelector(".js-cart-quantity");
+
+	if (cartQuantityElement) {
+		// New: Check if the element exists
+		cartQuantityElement.innerHTML = totalQuantity; // New: Update displayed total quantity
+	}
+});
